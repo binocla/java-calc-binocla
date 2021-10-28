@@ -6,8 +6,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.math.BigInteger;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Path("/calc")
@@ -18,6 +16,8 @@ public class CalcResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String calc(@QueryParam("data") String data) throws ExecutionException, InterruptedException {
         String[] ob = data.split("\\s+");
+        // + - URL Encoded %2B
+        // todo Сделать * / -
         AtomicReference<BigInteger> cnt = new AtomicReference<>();
         cnt.set(new BigInteger("0"));
         return Multi.createFrom()
@@ -35,4 +35,5 @@ public class CalcResource {
                 .subscribeAsCompletionStage()
                 .get();
     }
+
 }
